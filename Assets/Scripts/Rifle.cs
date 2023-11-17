@@ -15,7 +15,7 @@ public class Rifle : MonoBehaviour
     public Transform hand;
 
     [Header("Rifle Ammunition and shooting")]
-    private int maximumAmmunition = 30;
+    private int maximumAmmunition = 300;
     public int mag = 10;
     private int presentAmmunition;
     public float reloadingTime = 3.633f;
@@ -74,6 +74,7 @@ public class Rifle : MonoBehaviour
     {
         if(mag == 0)
         {
+
             return;
         }
 
@@ -83,6 +84,9 @@ public class Rifle : MonoBehaviour
         {
             mag--;
         }
+
+        AmmoCount.occurrence.UpdateAmmoText(presentAmmunition);
+        AmmoCount.occurrence.UpdateMagText(mag);
 
         muzzleSpark.Play();
         RaycastHit hitInfo;
