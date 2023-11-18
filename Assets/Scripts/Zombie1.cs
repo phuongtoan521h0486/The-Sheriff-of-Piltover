@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class Zombie1 : MonoBehaviour
 {
+    private bool findZombie = false;
+    private bool died = false;
+
     [Header("Zombie Health and Damage")]
     private float zombieHealth = 100f;
     private float presentHealth;
@@ -69,6 +72,12 @@ public class Zombie1 : MonoBehaviour
     }
     private void Pursueplayer()
     {
+        if(findZombie == false)
+        {
+            findZombie = true;
+            ObjectivesComplete.occurrence.GetObjectivesDone("obj1");
+        }
+
         if(zombieAgent.SetDestination(playerBody.position))
         {
             anim.SetBool("Walking", false);
@@ -140,6 +149,12 @@ public class Zombie1 : MonoBehaviour
         visionRadius = 0f;
         playerInattackingRadius = false;
         playerInvisionRadius = false;
+
+        if(died == false)
+        {
+            GameController.occurrence.updateCount();
+            died = true;
+        }
 
         Object.Destroy(gameObject, 5.0f);
     }

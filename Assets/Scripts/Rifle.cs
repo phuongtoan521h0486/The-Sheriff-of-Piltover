@@ -108,13 +108,13 @@ public class Rifle : MonoBehaviour
             {
                 zombie1.zombieHitDamage(giveDamageOf);
                 GameObject goreEffectGO = Instantiate(goreEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-                Destroy(goreEffect, 1f);
+                Destroy(goreEffectGO, 1f);
             }
             else if (zombie2 != null)
             {
                 zombie2.zombieHitDamage(giveDamageOf);
                 GameObject goreEffectGO = Instantiate(goreEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-                Destroy(goreEffect, 1f);
+                Destroy(goreEffectGO, 1f);
             }
         }
     }

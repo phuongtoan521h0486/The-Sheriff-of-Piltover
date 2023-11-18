@@ -6,12 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Map 1.unity
-    guid: 2bac0e82cbc1ad64492c12c61d01882a
+    path: Assets/Scenes/MainMenu.unity
+    guid: ac6be5b983b674e44b132b6a1f3c3bcb
   - enabled: 1
-    path: Assets/Scenes/Scene_A.unity
+    path: Assets/Scenes/SheriffOfPiltover.unity
     guid: c0d944ca9defd20449bc336e50d75a08
-  - enabled: 0
-    path: Assets/Scenes/Test Scene.unity
-    guid: 80897002a560012469b1ff5364d86228
   m_configObjects: {}

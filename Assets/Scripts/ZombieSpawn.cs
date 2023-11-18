@@ -8,6 +8,8 @@ public class ZombieSpawn : MonoBehaviour
     public GameObject zombiePrefab;
     public Transform zombieSpawnPosition;
 
+    public static float amountZombies = 5f;
+
     private float repeatCycle = 1f;
 
     private void OnTriggerEnter(Collider other)
@@ -15,8 +17,9 @@ public class ZombieSpawn : MonoBehaviour
         if(other.gameObject.tag == "Player")
         {
             InvokeRepeating("EnemySpawner", 1f, repeatCycle);
-            Destroy(gameObject, 10f);
+            Destroy(gameObject, amountZombies);
             gameObject.GetComponent<BoxCollider>().enabled = false;
+            ObjectivesComplete.occurrence.GetObjectivesDone("task1");
         }
     }
 
