@@ -15,7 +15,7 @@ public class Rifle : MonoBehaviour
     public Transform hand;
 
     [Header("Rifle Ammunition and shooting")]
-    private int maximumAmmunition = 300;
+    public int maximumAmmunition = 50;
     public int mag = 10;
     private int presentAmmunition;
     public float reloadingTime = 3.633f;
@@ -25,6 +25,7 @@ public class Rifle : MonoBehaviour
     public ParticleSystem muzzleSpark;
     public GameObject WoodedEffect;
     public GameObject goreEffect;
+
     private void Awake()
     {
         transform.SetParent(hand);
@@ -125,6 +126,7 @@ public class Rifle : MonoBehaviour
         player.playerSprint = 0f;
         setReloading = true;
         Debug.Log("Reloading...");
+        GameController.occurrence.LoadingBullets_();
         animator.SetBool("Reloading", true);
 
         yield return new WaitForSeconds(reloadingTime);
@@ -133,5 +135,7 @@ public class Rifle : MonoBehaviour
         player.playerSpeed = 3f;
         player.playerSprint = 5f;
         setReloading = false;
+        Debug.Log("Reloaded");
+        GameController.occurrence.LoadedBullets_();
     }
 }

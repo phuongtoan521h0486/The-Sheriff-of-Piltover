@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    private float amountZombies;
-    private float count;
+    private float amountCoins;
+    private float amountCurrent;
 
     private bool won = false;
 
@@ -15,12 +15,14 @@ public class GameController : MonoBehaviour
 
     public GameObject WinGameMenuUI;
 
+    public GameObject LoadingBullets;
+
     // Start is called before the first frame update
     void Start()
     {
-        amountZombies = ZombieSpawn.amountZombies;
-        Debug.Log("Amount zombies: " +  amountZombies);
-        count = 0;
+        amountCoins = ZombieSpawn.amountZombies;
+        Debug.Log("Amount coins need collect: " + amountCoins);
+        amountCurrent = 0;
     }
 
     private void Awake()
@@ -31,7 +33,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (count >= amountZombies)
+        if (amountCurrent >= amountCoins)
         {
             if(won == false) {
                 won = true;
@@ -49,9 +51,19 @@ public class GameController : MonoBehaviour
         Debug.Log("win game");
     }
 
-    public void updateCount()
+    public void updateAmountCoins()
     {
-        count++;
-        Debug.Log("defeated zombies: " + count);
+        amountCurrent++;
+        Debug.Log("selected coins: " + amountCurrent);
+    }
+
+    public void LoadingBullets_()
+    {
+        LoadingBullets.SetActive(true);
+    }
+
+    public void LoadedBullets_()
+    {
+        LoadingBullets.SetActive(false);
     }
 }

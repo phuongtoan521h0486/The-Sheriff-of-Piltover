@@ -12,6 +12,12 @@ public class Menus: MonoBehaviour
 
     public static bool GameIsStopped = false;
 
+    private void Start()
+    {
+        showObjectives();
+        removeObjectives();
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -45,7 +51,7 @@ public class Menus: MonoBehaviour
     public void showObjectives()
     {
         ObjectiveMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+/*        Time.timeScale = 0f;*/
         GameIsStopped = true;
     }
 
@@ -87,7 +93,7 @@ public class Menus: MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+/*        Time.timeScale = 0f;*/
         GameIsStopped = true;
     }
 }

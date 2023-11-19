@@ -3,7 +3,15 @@ guid: ef8e612668679784a89ce07e20c16bf9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - cam: {instanceID: 0}
+  - animator: {instanceID: 0}
+  - player: {instanceID: 0}
+  - hand: {instanceID: 0}
+  - muzzleSpark: {instanceID: 0}
+  - WoodedEffect: {instanceID: 0}
+  - goreEffect: {instanceID: 0}
+  - LoadingBullets: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -6,9 +6,10 @@ public class ZombieSpawn : MonoBehaviour
 {
     [Header("ZombieSpawn Var")]
     public GameObject zombiePrefab;
-    public Transform zombieSpawnPosition;
+    public Transform[] zombieSpawnPosition;
+    private int spawnPointCurrent = 0;
 
-    public static float amountZombies = 5f;
+    public static float amountZombies = 10f;
 
     private float repeatCycle = 1f;
 
@@ -25,6 +26,11 @@ public class ZombieSpawn : MonoBehaviour
 
     void EnemySpawner()
     {
-        Instantiate(zombiePrefab, zombieSpawnPosition.position, zombieSpawnPosition.rotation);
+        Instantiate(zombiePrefab, zombieSpawnPosition[spawnPointCurrent].position, zombieSpawnPosition[spawnPointCurrent].rotation);
+        spawnPointCurrent++;
+        if(spawnPointCurrent >= zombieSpawnPosition.Length)
+        {
+            spawnPointCurrent = 0;
+        }
     }
 }

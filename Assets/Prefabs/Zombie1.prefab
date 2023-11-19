@@ -743,10 +743,11 @@ MonoBehaviour:
   timeBtwAttack: 2.18
   previouslyAttack: 0
   anim: {fileID: 3519684707525470585}
-  visionRadius: 15
+  visionRadius: 50
   attackingRadius: 1
   playerInvisionRadius: 0
   playerInattackingRadius: 0
+  coinPrefab: {fileID: 1498403948531744, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
 --- !u!195 &823776907989214795
 NavMeshAgent:
   m_ObjectHideFlags: 0

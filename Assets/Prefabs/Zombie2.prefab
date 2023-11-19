@@ -158,10 +158,11 @@ MonoBehaviour:
   timeBtwAttack: 2.18
   previouslyAttack: 0
   anim: {fileID: 2414085125008636708}
-  visionRadius: 10
+  visionRadius: 25
   attackingRadius: 1
   playerInvisionRadius: 0
   playerInattackingRadius: 0
+  coinPrefab: {fileID: 1498403948531744, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
 --- !u!95 &2414085125008636708
 Animator:
   serializedVersion: 5

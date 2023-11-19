@@ -38,6 +38,9 @@ public class Zombie2 : MonoBehaviour
     public bool playerInvisionRadius;
     public bool playerInattackingRadius;
 
+    [Header("Items")]
+    public GameObject coinPrefab;
+
     private void Awake()
     {
         presentHealth = zombieHealth;
@@ -131,7 +134,11 @@ public class Zombie2 : MonoBehaviour
 
         if (died == false)
         {
-            GameController.occurrence.updateCount();
+            Vector3 position = transform.position;
+            position.y = position.y + 1f;
+            Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
+            Instantiate(coinPrefab, position, rotation);
+            ObjectivesComplete.occurrence.GetObjectivesDone("task2");
             died = true;
         }
 
