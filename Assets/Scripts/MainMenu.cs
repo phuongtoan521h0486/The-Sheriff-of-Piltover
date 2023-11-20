@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -11,10 +12,11 @@ public class MainMenu : MonoBehaviour
     public TextMeshProUGUI loadingText;
     public GameObject loadingImage;
 
+    public Slider progressBar;
+
     private void Start()
     {
         loadingImage.SetActive(false);
-        loadingText.enabled = false;
     }
 
     public void OnPlayButton()
@@ -29,24 +31,24 @@ public class MainMenu : MonoBehaviour
     IEnumerator LoadSceneAsync()
     {
         loadingImage.SetActive(true);
-        loadingText.enabled = true;
-        loadingText.text = "loading... 0%";
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("SheriffOfPiltover");
 
-        int count = 0;
+        StartCoroutine(loadingTextDisplay());
+
         while (!asyncLoad.isDone)
         {
-            count = count + 2;
-            if (count >= 100)
-            {
-                loadingText.text = "loading... 100%";
-                count = 0;
-            }
-
-            loadingText.text = "loading... " + count + "%";
-
             yield return null;
+        }
+    }
+
+    IEnumerator loadingTextDisplay()
+    {
+        for(int i=0; i < 100; i=i+5)
+        {
+            loadingText.text = "loading... " + i + "%";
+            progressBar.value = (float)i;
+            yield return new WaitForSeconds(0.25f);
         }
     }
 

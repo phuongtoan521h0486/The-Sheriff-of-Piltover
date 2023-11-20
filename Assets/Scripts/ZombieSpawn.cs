@@ -9,7 +9,7 @@ public class ZombieSpawn : MonoBehaviour
     public Transform[] zombieSpawnPosition;
     private int spawnPointCurrent = 0;
 
-    public static float amountZombies = 10f;
+    public static float amountZombies = 6f;
 
     private float repeatCycle = 1f;
 
@@ -20,6 +20,7 @@ public class ZombieSpawn : MonoBehaviour
             InvokeRepeating("EnemySpawner", 1f, repeatCycle);
             Destroy(gameObject, amountZombies);
             gameObject.GetComponent<BoxCollider>().enabled = false;
+            GameController.occurrence.setZombiesSpawn(true);
             ObjectivesComplete.occurrence.GetObjectivesDone("task1");
         }
     }
@@ -27,6 +28,7 @@ public class ZombieSpawn : MonoBehaviour
     void EnemySpawner()
     {
         Instantiate(zombiePrefab, zombieSpawnPosition[spawnPointCurrent].position, zombieSpawnPosition[spawnPointCurrent].rotation);
+
         spawnPointCurrent++;
         if(spawnPointCurrent >= zombieSpawnPosition.Length)
         {

@@ -40,12 +40,6 @@ public class Zombie1 : MonoBehaviour
     public bool playerInvisionRadius;
     public bool playerInattackingRadius;
 
-    [Header("Zombie Audio")]
-    public AudioSource audioSource;
-    public AudioClip bruhAudio;
-    public AudioClip hitAudio;
-    public AudioClip dieAudio;
-
     [Header("Items")]
     public GameObject coinPrefab;
 
@@ -81,8 +75,7 @@ public class Zombie1 : MonoBehaviour
     }
     private void Pursueplayer()
     {
-        
-        if (findZombie == false)
+        if(findZombie == false)
         {
             findZombie = true;
             ObjectivesComplete.occurrence.GetObjectivesDone("obj1");
@@ -106,7 +99,6 @@ public class Zombie1 : MonoBehaviour
 
     private void AttackPlayer()
     {
-
         zombieAgent.SetDestination(transform.position);
         transform.LookAt(lookPoint);
         if(!previouslyAttack) 
@@ -140,10 +132,6 @@ public class Zombie1 : MonoBehaviour
     public void zombieHitDamage(float takeDamage)
     {
         presentHealth -= takeDamage;
-
-        audioSource.clip = hitAudio;
-        audioSource.Play();
-
         healthBar.SetHealth(presentHealth);
         if (presentHealth <= 0)
         {
@@ -164,9 +152,6 @@ public class Zombie1 : MonoBehaviour
         visionRadius = 0f;
         playerInattackingRadius = false;
         playerInvisionRadius = false;
-
-        audioSource.clip = dieAudio;
-        audioSource.Play();
 
         if(died == false)
         {
