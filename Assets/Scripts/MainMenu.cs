@@ -1,17 +1,53 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public TextMeshProUGUI loadingText;
+    public GameObject loadingImage;
+
+    private void Start()
+    {
+        loadingImage.SetActive(false);
+        loadingText.enabled = false;
+    }
+
     public void OnPlayButton()
     {
+        StartCoroutine(LoadSceneAsync());
         StartCoroutine(ChangeLevel());
-        Application.LoadLevel(1);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Menus.GameIsStopped = false;
+    }
+
+    IEnumerator LoadSceneAsync()
+    {
+        loadingImage.SetActive(true);
+        loadingText.enabled = true;
+        loadingText.text = "loading... 0%";
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("SheriffOfPiltover");
+
+        int count = 0;
+        while (!asyncLoad.isDone)
+        {
+            count = count + 2;
+            if (count >= 100)
+            {
+                loadingText.text = "loading... 100%";
+                count = 0;
+            }
+
+            loadingText.text = "loading... " + count + "%";
+
+            yield return null;
+        }
     }
 
     public void OnQuitButton()

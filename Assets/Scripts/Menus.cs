@@ -14,8 +14,7 @@ public class Menus: MonoBehaviour
 
     private void Start()
     {
-        showObjectives();
-        removeObjectives();
+        StartCoroutine(hiddenObjectives());
     }
 
     private void Update()
@@ -46,6 +45,13 @@ public class Menus: MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
             }
         }
+    }
+
+    IEnumerator hiddenObjectives()
+    {
+        yield return new WaitForSeconds(2);
+
+        removeObjectives();
     }
 
     public void showObjectives()

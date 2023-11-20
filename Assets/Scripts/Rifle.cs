@@ -26,8 +26,12 @@ public class Rifle : MonoBehaviour
     public GameObject WoodedEffect;
     public GameObject goreEffect;
 
+    public static Rifle occurrence;
+
+
     private void Awake()
     {
+        occurrence = this;
         transform.SetParent(hand);
         presentAmmunition = maximumAmmunition;
     }
