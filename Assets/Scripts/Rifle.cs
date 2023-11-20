@@ -28,6 +28,9 @@ public class Rifle : MonoBehaviour
 
     public static Rifle occurrence;
 
+    [Header("Rifle Audios")]
+    public AudioClip hitAudio;
+    public AudioClip ammoDropAudio;
 
     private void Awake()
     {
@@ -92,6 +95,7 @@ public class Rifle : MonoBehaviour
 
         AmmoCount.occurrence.UpdateAmmoText(presentAmmunition);
         AmmoCount.occurrence.UpdateMagText(mag);
+        StartCoroutine(PlaySequentially());
 
         muzzleSpark.Play();
         RaycastHit hitInfo;
@@ -141,5 +145,20 @@ public class Rifle : MonoBehaviour
         setReloading = false;
         Debug.Log("Reloaded");
         GameController.occurrence.LoadedBullets_();
+    }
+
+    IEnumerator PlaySequentially()
+    {
+        AudioSource audioSource = GetComponent<AudioSource>();
+        // Play the first clip
+        audioSource.clip = hitAudio;
+        audioSource.Play();
+
+        // Wait for the first clip to end
+        yield return new WaitForSeconds(hitAudio.length);
+
+        // Play the second clip
+        audioSource.clip = ammoDropAudio;
+        audioSource.Play();
     }
 }
