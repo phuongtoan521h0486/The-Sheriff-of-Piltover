@@ -60,6 +60,7 @@ public class ObjectivesComplete : MonoBehaviour
             {
                 objective3.text = "3. Completed";
                 objective3.color = Color.green;
+                GameController.occurrence.winGame();
             }
             else
             {

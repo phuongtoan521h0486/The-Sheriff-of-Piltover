@@ -15,8 +15,8 @@ public class Rifle : MonoBehaviour
     public Transform hand;
 
     [Header("Rifle Ammunition and shooting")]
-    public int maximumAmmunition = 50;
-    public int mag = 10;
+    public int maximumAmmunition = 20;
+    public int mag = 2;
     private int presentAmmunition;
     public float reloadingTime = 3.633f;
     private bool setReloading = false;
@@ -42,7 +42,7 @@ public class Rifle : MonoBehaviour
         {
             return;
         }
-        if (presentAmmunition <= 0)
+        if (presentAmmunition <= 0 && mag > 0)
         {
             StartCoroutine(Reload());
             return;
@@ -50,11 +50,16 @@ public class Rifle : MonoBehaviour
 
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToShoot)
         {
+            if (Menus.openShop == true || Menus.GameIsStopped == true)
+            {
+                return;
+            }
+
+            if (presentAmmunition <= 0) { return; }
 
             if (!(Input.GetButton("Fire1") && Time.time > timeRate)) { return; }
 
             timeRate = Time.time + fireRate;
-            GetComponent<AudioSource>().Play();
 
             animator.SetBool("Fire", true);
             animator.SetBool("Idle", false);
@@ -91,8 +96,9 @@ public class Rifle : MonoBehaviour
         }
 
         presentAmmunition--;
+        GetComponent<AudioSource>().Play();
 
-        if(presentAmmunition == 0)
+        if (presentAmmunition == 0)
         {
             mag--;
         }
@@ -148,5 +154,11 @@ public class Rifle : MonoBehaviour
         setReloading = false;
         Debug.Log("Reloaded");
         GameController.occurrence.LoadedBullets_();
+    }
+
+    public void addMag()
+    {
+        mag++;
+        AmmoCount.occurrence.UpdateMagText(mag);
     }
 }

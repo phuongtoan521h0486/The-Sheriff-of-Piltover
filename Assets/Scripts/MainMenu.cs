@@ -16,6 +16,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        loadingImage.SetActive(true);
         loadingImage.SetActive(false);
     }
 

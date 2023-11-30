@@ -10,10 +10,18 @@ public class Menus: MonoBehaviour
     public GameObject EndGameMenuUI;
     public GameObject ObjectiveMenuUI;
 
+    [Header("Shop")]
+    public GameObject shopUI;
+
     public static bool GameIsStopped = false;
+    public static bool openShop = false;
 
     private void Start()
     {
+        showShop();
+        removeShop();
+
+        showObjectives();
         StartCoroutine(hiddenObjectives());
     }
 
@@ -45,6 +53,19 @@ public class Menus: MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
             }
         }
+        else if (Input.GetKeyDown("p"))
+        {
+            if (openShop)
+            {
+                removeShop();
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                showShop();
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
     }
 
     IEnumerator hiddenObjectives()
@@ -57,8 +78,22 @@ public class Menus: MonoBehaviour
     public void showObjectives()
     {
         ObjectiveMenuUI.SetActive(true);
-/*        Time.timeScale = 0f;*/
+        /*        Time.timeScale = 0f;*/
         GameIsStopped = true;
+    }
+
+    public void showShop()
+    {
+        shopUI.SetActive(true);
+        openShop = true;
+    }
+
+    public void removeShop()
+    {
+        shopUI.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        openShop = false;
     }
 
     public void removeObjectives()
@@ -99,7 +134,7 @@ public class Menus: MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-/*        Time.timeScale = 0f;*/
+        /*        Time.timeScale = 0f;*/
         GameIsStopped = true;
     }
 }

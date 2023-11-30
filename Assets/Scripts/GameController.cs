@@ -46,17 +46,22 @@ public class GameController : MonoBehaviour
     void Update()
     {
         closestZombie();
-
         if (amountCurrent >= amountCoins)
         {
-            if(won == false) {
+            if (won == false)
+            {
                 won = true;
-                StartCoroutine(winGame());
+                winGame();
             }
         }
     }
 
-    IEnumerator winGame()
+    public void winGame()
+    {
+        StartCoroutine(displayWinGame());
+    }
+
+    IEnumerator displayWinGame()
     {
         yield return new WaitForSeconds(1);
 

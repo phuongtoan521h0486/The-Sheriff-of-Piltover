@@ -17,6 +17,7 @@ public class ZombieSpawn : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
+            GetComponent<AudioSource>().Play();
             InvokeRepeating("EnemySpawner", 1f, repeatCycle);
             Destroy(gameObject, amountZombies);
             gameObject.GetComponent<BoxCollider>().enabled = false;

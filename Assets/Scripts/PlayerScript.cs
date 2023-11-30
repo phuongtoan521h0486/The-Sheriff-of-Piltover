@@ -35,6 +35,13 @@ public class PlayerScript : MonoBehaviour
     public float surfaceDistance = 0.4f;
     public LayerMask surfaceMask;
 
+    public static PlayerScript occurrence;
+
+    private void Awake()
+    {
+        occurrence = this;
+    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -158,6 +165,17 @@ public class PlayerScript : MonoBehaviour
         {
             PlayerDie();
         }
+    }
+
+    public void playerHealing(float takeHeal)
+    {
+        presentHealth += takeHeal;
+        if(presentHealth > playerHealth)
+        {
+            presentHealth = playerHealth;
+        }
+
+        healthBar.SetHealth(presentHealth);
     }
 
     private void PlayerDie()
