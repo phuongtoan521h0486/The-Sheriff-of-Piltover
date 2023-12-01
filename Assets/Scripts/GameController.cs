@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -35,6 +36,8 @@ public class GameController : MonoBehaviour
         amountCurrent = 0;
 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
+
+        GetComponent<AudioSource>().volume = DataManager.Instance.volumeCurrent;
     }
 
     private void Awake()
@@ -95,6 +98,11 @@ public class GameController : MonoBehaviour
     public void setZombiesSpawn(bool status)
     {
         zombiesSpawn = status;
+    }
+
+    public void updateVolumeCurrent(float volume)
+    {
+        GetComponent<AudioSource>().volume = volume;
     }
 
     private void closestZombie()

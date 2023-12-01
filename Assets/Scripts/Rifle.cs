@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Rifle : MonoBehaviour
 {
+    public static Rifle occurrence;
+
     [Header("Rifle Things")]
     public Camera cam;
     public float giveDamageOf = 10f;
@@ -26,9 +28,12 @@ public class Rifle : MonoBehaviour
     public GameObject WoodedEffect;
     public GameObject goreEffect;
 
-    public static Rifle occurrence;
+    [Header("Rifle time")]
     public float fireRate = 0.4f;
     private float timeRate;
+
+    [Header("Cameras")]
+    public Transform playerCamera;
 
     private void Awake()
     {
@@ -50,7 +55,7 @@ public class Rifle : MonoBehaviour
 
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToShoot)
         {
-            if (Menus.openShop == true || Menus.GameIsStopped == true)
+            if (Menus.openShop == true || Menus.GameIsStopped == true || CamController.isMainCamera == false)
             {
                 return;
             }
@@ -94,6 +99,9 @@ public class Rifle : MonoBehaviour
 
             return;
         }
+
+        Quaternion cameraRotation = playerCamera.transform.rotation;
+        PlayerScript.occurrence.transform.rotation = cameraRotation; //set rotation of player
 
         presentAmmunition--;
         AudioController.occurrence.playFire();

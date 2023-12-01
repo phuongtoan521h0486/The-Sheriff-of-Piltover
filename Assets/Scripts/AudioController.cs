@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class AudioController : MonoBehaviour
 {
@@ -16,12 +17,33 @@ public class AudioController : MonoBehaviour
     public AudioClip useItem;
     public AudioClip winGame;
 
+    [Header("Slider")]
+    public Slider sliderVolume;
+
     private void Awake()
     {
         occurrence = this;
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        audioSource.volume = DataManager.Instance.volumeCurrent;
+        sliderVolume.value = DataManager.Instance.volumeCurrent;
+
+        if (sliderVolume == null)
+        {
+            sliderVolume = GetComponent<Slider>();
+        }
+
+        sliderVolume.onValueChanged.AddListener(ChangeVolume);
+    }
+
+    private void ChangeVolume(float volume)
+    {
+        audioSource.volume = volume;
+        DataManager.Instance.updateVolumeCurrent(volume);
+    }
 
     public void playCollectCoin()
     {

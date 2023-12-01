@@ -10,6 +10,7 @@ public class CamController : MonoBehaviour
 
 
     private int state;
+    public static bool isMainCamera = true;
 
     private void Start()
     {
@@ -35,6 +36,17 @@ public class CamController : MonoBehaviour
             mainCamera.SetActive(state == 1);
             fixedCamera.SetActive(state == 2);
             spawnZombiesCamera.SetActive(state == 3);
+
+            if(state == 1)
+            {
+                isMainCamera = true;
+            }
+            else
+            {
+                isMainCamera = false;
+            }
+
+            
         }
     }
 

@@ -21,9 +21,24 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        setUpVolume();
         loadingImage.SetActive(true);
         loadingImage.SetActive(false);
+
+        GetComponent<AudioSource>().volume = DataManager.Instance.volumeCurrent;
+        sliderVolume.value = DataManager.Instance.volumeCurrent;
+
+        if (sliderVolume == null)
+        {
+            sliderVolume = GetComponent<Slider>();
+        }
+
+        sliderVolume.onValueChanged.AddListener(ChangeVolume);
+    }
+
+    private void ChangeVolume(float volume)
+    {
+        GetComponent<AudioSource>().volume = volume;
+        DataManager.Instance.updateVolumeCurrent(volume);
     }
 
     public void OnPlayButton()
@@ -94,23 +109,6 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Quitting Game...");
         Application.Quit();
         UnityEditor.EditorApplication.isPlaying = false;
-    }
-
-    private void setUpVolume()
-    {
-        if (sliderVolume == null)
-        {
-            sliderVolume = GetComponent<Slider>();
-        }
-
-        GetComponent<AudioSource>().volume = sliderVolume.value;
-
-        sliderVolume.onValueChanged.AddListener(ChangeVolume);
-    }
-
-    private void ChangeVolume(float volume)
-    {
-        GetComponent<AudioSource>().volume = volume;
     }
 
     IEnumerator ChangeLevel()

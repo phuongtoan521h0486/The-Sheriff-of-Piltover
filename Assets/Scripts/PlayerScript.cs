@@ -63,21 +63,8 @@ public class PlayerScript : MonoBehaviour
         playerMove();
         Jump();
         Sprint();
-
-        rotateForward();
     }
 
-    void rotateForward()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (playerCamera)
-            {
-                Quaternion cameraRotation = playerCamera.transform.rotation;
-                transform.rotation = cameraRotation;
-            }
-        }
-    }
 
     void playerMove()
     {

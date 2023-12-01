@@ -1,20 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataManager : MonoBehaviour
 {
-    public float volumeCurrent = 1.0f;
+    public static DataManager Instance;
 
-    public static DataManager occurrence;
+    public float volumeCurrent = 1.0f;
 
     private void Awake()
     {
-        occurrence = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public float getVolumeCurrent()
+    public void updateVolumeCurrent(float volume)
     {
-        return occurrence.volumeCurrent;
+        volumeCurrent = volume;
+        if(GameController.occurrence != null)
+        {
+            GameController.occurrence.updateVolumeCurrent(volume);
+        }
     }
 }
