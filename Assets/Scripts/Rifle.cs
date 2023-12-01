@@ -55,7 +55,7 @@ public class Rifle : MonoBehaviour
 
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToShoot)
         {
-            if (Menus.openShop == true || Menus.GameIsStopped == true || CamController.isMainCamera == false)
+            if (Menus.openShop == true || Menus.GameIsStopped == true || CamController.isMainCamera == false || GameController.won == true)
             {
                 return;
             }

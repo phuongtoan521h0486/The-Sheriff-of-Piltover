@@ -44,6 +44,7 @@ public class ObjectivesComplete : MonoBehaviour
             if(amountDefeatedZombies >= amountZombies) {
                 objective2.text = "2. Completed";
                 objective2.color = Color.green;
+                GameController.occurrence.setClear(true);
             }
             else
             {

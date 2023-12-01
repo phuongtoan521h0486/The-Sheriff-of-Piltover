@@ -114,9 +114,12 @@ public class MainMenu : MonoBehaviour
     IEnumerator ChangeLevel()
     {
         GameObject fader = GameObject.Find("FaderScripts");
-        FaderScript faderScript = fader.GetComponent<FaderScript>();
+        if(fader != null )
+        {
+            FaderScript faderScript = fader.GetComponent<FaderScript>();
 
-        float fadeTime = faderScript.BeginFade(1);
-        yield return new WaitForSeconds(fadeTime);
+            float fadeTime = faderScript.BeginFade(1);
+            yield return new WaitForSeconds(fadeTime);
+        }
     }
 }

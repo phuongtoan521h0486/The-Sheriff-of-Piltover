@@ -63,6 +63,17 @@ public class PlayerScript : MonoBehaviour
         playerMove();
         Jump();
         Sprint();
+
+        rotateFollowCamera();
+    }
+
+    private void rotateFollowCamera()
+    {
+        if (playerCamera != null)
+        {
+            float horizontalRotation = playerCamera.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(0f, horizontalRotation, 0f);
+        }
     }
 
 

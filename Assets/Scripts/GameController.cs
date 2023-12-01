@@ -11,15 +11,16 @@ public class GameController : MonoBehaviour
     private float amountCoins;
     private float amountCurrent;
 
-    private bool won = false;
+    public static bool won = false;
+    private bool clear = false;
 
     public static GameController occurrence;
 
-    private bool zombiesSpawn = false;
     private GameObject[] listZombies;
     private LineRenderer lineRenderer;
     public Transform player;
     public Transform dangerPoint;
+    
 
     [Header("UI")]
     public GameObject WinGameMenuUI;
@@ -36,6 +37,9 @@ public class GameController : MonoBehaviour
         amountCurrent = 0;
 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.SetPosition(0, new Vector3(player.position.x, player.position.y + 1.5f, player.position.z));
+        lineRenderer.SetPosition(1, dangerPoint.position);
+        lineRenderer.SetWidth(0.05f, 0.05f);
 
         GetComponent<AudioSource>().volume = DataManager.Instance.volumeCurrent;
     }
@@ -56,6 +60,7 @@ public class GameController : MonoBehaviour
                 won = true;
                 GetComponent<AudioSource>().Stop();
                 AudioController.occurrence.playWinGame();
+
                 winGame();
             }
         }
@@ -77,6 +82,11 @@ public class GameController : MonoBehaviour
         Debug.Log("win game");
     }
 
+    public void setClear(bool status)
+    {
+        clear = status;
+    }
+
     public void updateAmountCoins()
     {
         amountCurrent++;
@@ -95,11 +105,6 @@ public class GameController : MonoBehaviour
         LoadingBullets.SetActive(false);
     }
 
-    public void setZombiesSpawn(bool status)
-    {
-        zombiesSpawn = status;
-    }
-
     public void updateVolumeCurrent(float volume)
     {
         GetComponent<AudioSource>().volume = volume;
@@ -107,17 +112,15 @@ public class GameController : MonoBehaviour
 
     private void closestZombie()
     {
-        if(zombiesSpawn == false)
+        if(clear)
         {
-            lineRenderer.SetPosition(0, new Vector3(player.position.x, player.position.y + 1.5f, player.position.z));
-            lineRenderer.SetPosition(1, dangerPoint.position);
-            lineRenderer.SetWidth(0.05f, 0.05f);
+            Destroy(lineRenderer);
             return;
         }
 
         listZombies = GameObject.FindGameObjectsWithTag("zombie");
 
-        if (listZombies == null)
+        if (listZombies == null || listZombies.Length <= 0)
         {
             Debug.Log("not found");
             return;

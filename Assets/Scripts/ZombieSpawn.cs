@@ -21,7 +21,6 @@ public class ZombieSpawn : MonoBehaviour
             InvokeRepeating("EnemySpawner", 1f, repeatCycle);
             Destroy(gameObject, amountZombies);
             gameObject.GetComponent<BoxCollider>().enabled = false;
-            GameController.occurrence.setZombiesSpawn(true);
             ObjectivesComplete.occurrence.GetObjectivesDone("task1");
         }
     }
