@@ -12,6 +12,8 @@ public class Menus: MonoBehaviour
 
     [Header("Shop")]
     public GameObject shopUI;
+    public GameObject alertUseText;
+    public GameObject alertBuyText;
 
     public static bool GameIsStopped = false;
     public static bool openShop = false;
@@ -84,12 +86,15 @@ public class Menus: MonoBehaviour
 
     public void showShop()
     {
+
         shopUI.SetActive(true);
         openShop = true;
     }
 
     public void removeShop()
     {
+        alertUseText.SetActive(false);
+        alertBuyText.SetActive(false);
         shopUI.SetActive(false);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;

@@ -12,6 +12,8 @@ public class ShopController : MonoBehaviour
     public Text PriceBloodText;
     public Text PriceMagText;
     public GameObject MessageBuyAlert;
+    public GameObject MessageUseAlert;
+    public Text MessageUseText;
 
     [Header("Item UI")]
     public GameObject bloodItem;
@@ -69,6 +71,7 @@ public class ShopController : MonoBehaviour
         
         amountBlood++;
         currentCoins = currentCoins - priceBlood;
+        AudioController.occurrence.playBuyItem();
     }
 
     public void buyMag()
@@ -81,6 +84,7 @@ public class ShopController : MonoBehaviour
 
         amountMag++;
         currentCoins = currentCoins - priceMag;
+        AudioController.occurrence.playBuyItem();
     }
 
     public void useBlood()
@@ -92,6 +96,8 @@ public class ShopController : MonoBehaviour
 
         amountBlood--;
         PlayerScript.occurrence.playerHealing(healBlood);
+        displayUseAlert("used healing potion");
+        AudioController.occurrence.playUseItem();
     }
     public void useMag()
     {
@@ -102,6 +108,8 @@ public class ShopController : MonoBehaviour
 
         amountMag--;
         Rifle.occurrence.addMag();
+        displayUseAlert("used magazines");
+        AudioController.occurrence.playUseItem();
     }
 
     private void displayBuyAlert()
@@ -112,8 +120,21 @@ public class ShopController : MonoBehaviour
 
     IEnumerator hiddenBuyAlert()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         MessageBuyAlert.SetActive(false);
+    }
+
+    private void displayUseAlert(string message)
+    {
+        MessageUseAlert.SetActive(true);
+        MessageUseText.text = message;
+        StartCoroutine(hiddenUseAlert());
+    }
+
+    IEnumerator hiddenUseAlert()
+    {
+        yield return new WaitForSeconds(1.5f);
+        MessageUseAlert.SetActive(false);
     }
 
     private void updateAmountText()

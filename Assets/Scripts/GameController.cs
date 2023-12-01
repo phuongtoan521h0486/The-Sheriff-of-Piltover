@@ -51,6 +51,8 @@ public class GameController : MonoBehaviour
             if (won == false)
             {
                 won = true;
+                GetComponent<AudioSource>().Stop();
+                AudioController.occurrence.playWinGame();
                 winGame();
             }
         }
@@ -67,7 +69,7 @@ public class GameController : MonoBehaviour
 
         WinGameMenuUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
-        Object.Destroy(gameObject, 1.0f);
+/*        Object.Destroy(gameObject, 1.0f);*/
 
         Debug.Log("win game");
     }

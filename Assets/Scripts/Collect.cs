@@ -10,6 +10,7 @@ public class Collect : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Destroy(gameObject);
+            AudioController.occurrence.playCollectCoin();
             ShopController.occurrence.collectCoin();
             ObjectivesComplete.occurrence.GetObjectivesDone("task3");
         }

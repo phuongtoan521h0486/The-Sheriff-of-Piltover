@@ -4,18 +4,24 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [Header("UI")]
     public TextMeshProUGUI loadingText;
     public GameObject loadingImage;
-
     public Slider progressBar;
+    public GameObject optionImage;
+    public GameObject shortkeysImage;
+    public GameObject plotgameImage;
+    public Slider sliderVolume;
 
     private void Start()
     {
+        setUpVolume();
         loadingImage.SetActive(true);
         loadingImage.SetActive(false);
     }
@@ -53,11 +59,58 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void OnOptionButton()
+    {
+        optionImage.SetActive(true);
+    }
+
+    public void onBackToMainButton()
+    {
+        optionImage.SetActive(false);
+    }
+
+    public void OnShortKeysButton()
+    {
+        shortkeysImage.SetActive(true);
+    }
+
+    public void onBackToOptionButton1()
+    {
+        shortkeysImage.SetActive(false);
+    }
+
+    public void OnPlotGameButton()
+    {
+        plotgameImage.SetActive(true);
+    }
+
+    public void onBackToOptionButton2()
+    {
+        plotgameImage.SetActive(false);
+    }
+
     public void OnQuitButton()
     {
         Debug.Log("Quitting Game...");
         Application.Quit();
         UnityEditor.EditorApplication.isPlaying = false;
+    }
+
+    private void setUpVolume()
+    {
+        if (sliderVolume == null)
+        {
+            sliderVolume = GetComponent<Slider>();
+        }
+
+        GetComponent<AudioSource>().volume = sliderVolume.value;
+
+        sliderVolume.onValueChanged.AddListener(ChangeVolume);
+    }
+
+    private void ChangeVolume(float volume)
+    {
+        GetComponent<AudioSource>().volume = volume;
     }
 
     IEnumerator ChangeLevel()

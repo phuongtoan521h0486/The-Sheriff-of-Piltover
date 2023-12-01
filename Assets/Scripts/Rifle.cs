@@ -96,7 +96,7 @@ public class Rifle : MonoBehaviour
         }
 
         presentAmmunition--;
-        GetComponent<AudioSource>().Play();
+        AudioController.occurrence.playFire();
 
         if (presentAmmunition == 0)
         {
