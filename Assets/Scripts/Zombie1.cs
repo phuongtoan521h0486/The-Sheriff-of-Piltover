@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class Zombie1 : MonoBehaviour
 {
-    private bool findZombie = false;
     private bool died = false;
 
     [Header("Zombie Health and Damage")]
@@ -33,6 +32,7 @@ public class Zombie1 : MonoBehaviour
 
     [Header("Zombie Animation")]
     public Animator anim;
+    public float timeAttack = 1.75f;
 
     [Header("Zombie mood/states")]
     public float visionRadius;
@@ -75,12 +75,6 @@ public class Zombie1 : MonoBehaviour
     }
     private void Pursueplayer()
     {
-        if(findZombie == false)
-        {
-            findZombie = true;
-            ObjectivesComplete.occurrence.GetObjectivesDone("obj1");
-        }
-
         if(zombieAgent.SetDestination(playerBody.position))
         {
             anim.SetBool("Walking", false);
@@ -108,15 +102,16 @@ public class Zombie1 : MonoBehaviour
             {
                 Debug.Log("Attacking" +  hitInfo.transform.name);
 
-                PlayerScript playerBody = hitInfo.transform.GetComponent<PlayerScript>();
-                if (playerBody != null)
-                {
-                    playerBody.playerHitDamage(giveDamage);
-                }
                 anim.SetBool("Walking", false);
                 anim.SetBool("Running", false);
                 anim.SetBool("Attacking", true);
                 anim.SetBool("Died", false);
+
+                PlayerScript playerBody = hitInfo.transform.GetComponent<PlayerScript>();
+                if (playerBody != null)
+                {
+                    StartCoroutine(hitDamePlayer(playerBody));
+                }
             }
 
             previouslyAttack = true;
@@ -127,6 +122,14 @@ public class Zombie1 : MonoBehaviour
     private void ActiveAttacking()
     {
         previouslyAttack = false;
+    }
+
+    IEnumerator hitDamePlayer(PlayerScript playerBody)
+    {
+        yield return new WaitForSeconds(timeAttack);
+        playerBody.playerHitDamage(giveDamage);
+        AudioController.occurrence.playZombieAttack();
+
     }
 
     public void zombieHitDamage(float takeDamage)

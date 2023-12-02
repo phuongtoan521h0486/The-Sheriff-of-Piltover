@@ -13,8 +13,9 @@ public class ObjectivesComplete : MonoBehaviour
 
     private float amountDefeatedZombies = 0;
     private float amountZombies;
-    private float amountCollectedCoins = 0;
-    private float amountCoins;
+
+    private bool completed1 = false;
+    private bool completed2 = false;
 
     public static ObjectivesComplete occurrence;
 
@@ -26,15 +27,22 @@ public class ObjectivesComplete : MonoBehaviour
     private void Start()
     {
         amountZombies = ZombieSpawn.amountZombies;
-        amountCoins = ZombieSpawn.amountZombies;
     }
 
     public void GetObjectivesDone(string obj)
     {
-        if(obj.Equals("task1"))
+        if (obj.Equals("defeated boss"))
+        {
+            objective3.text = "3. Completed";
+            objective3.color = Color.green;
+            return;
+        }
+
+        if (obj.Equals("task1"))
         {
             objective1.text = "1. Completed";
             objective1.color = Color.green;
+            completed1 = true;
         }
 
         if (obj.Equals("task2"))
@@ -44,7 +52,8 @@ public class ObjectivesComplete : MonoBehaviour
             if(amountDefeatedZombies >= amountZombies) {
                 objective2.text = "2. Completed";
                 objective2.color = Color.green;
-                GameController.occurrence.setClear(true);
+                completed2 = true;
+                GameController.occurrence.completedTask2();
             }
             else
             {
@@ -53,25 +62,9 @@ public class ObjectivesComplete : MonoBehaviour
             }
         }
 
-        if (obj.Equals("task3"))
+        if(completed1 && completed2)
         {
-            amountCollectedCoins++;
-
-            if (amountCollectedCoins >= amountCoins)
-            {
-                objective3.text = "3. Completed";
-                objective3.color = Color.green;
-                GameController.occurrence.winGame();
-            }
-            else
-            {
-                objective3.text = "3. Collected coins: " + amountCollectedCoins + "/" + amountCoins;
-                objective3.color = Color.red;
-            }
-
-            GameController.occurrence.updateAmountCoins();
+            GameController.occurrence.completedAllTasks();
         }
-
-        //add tasks in here
     }
 }

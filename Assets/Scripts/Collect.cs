@@ -12,7 +12,6 @@ public class Collect : MonoBehaviour
             Destroy(gameObject);
             AudioController.occurrence.playCollectCoin();
             ShopController.occurrence.collectCoin();
-            ObjectivesComplete.occurrence.GetObjectivesDone("task3");
         }
     }
 }

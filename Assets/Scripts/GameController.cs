@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -8,11 +9,11 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    private float amountCoins;
-    private float amountCurrent;
-
     public static bool won = false;
-    private bool clear = false;
+    public static bool lose = false;
+    private bool task2 = false;
+    private bool bossAppear = false;
+    private float radius = 10f;
 
     public static GameController occurrence;
 
@@ -24,17 +25,18 @@ public class GameController : MonoBehaviour
 
     [Header("UI")]
     public GameObject WinGameMenuUI;
-    public GameObject LoadingBullets;
+    public GameObject LoseGameMenuUI;
+    public GameObject MessageAlert;
+    public TextMeshProUGUI MessageText;
     public Text AmmoText;
+
+    [Header("Boss")]
+    public GameObject boss;
 
     // Start is called before the first frame update
     void Start()
     {
         AmmoText.text = "Ammo: " + Rifle.occurrence.maximumAmmunition;
-
-        amountCoins = ZombieSpawn.amountZombies;
-        Debug.Log("Amount coins need collect: " + amountCoins);
-        amountCurrent = 0;
 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.SetPosition(0, new Vector3(player.position.x, player.position.y + 1.5f, player.position.z));
@@ -49,25 +51,21 @@ public class GameController : MonoBehaviour
         occurrence = this;
     }
 
-    // Update is called once per frame
     void Update()
     {
         closestZombie();
-        if (amountCurrent >= amountCoins)
-        {
-            if (won == false)
-            {
-                won = true;
-                GetComponent<AudioSource>().Stop();
-                AudioController.occurrence.playWinGame();
 
-                winGame();
-            }
+        if(won == true || lose == true)
+        {
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
     public void winGame()
     {
+        won = true;
+        GetComponent<AudioSource>().Stop();
+        AudioController.occurrence.playWinGame();
         StartCoroutine(displayWinGame());
     }
 
@@ -77,32 +75,79 @@ public class GameController : MonoBehaviour
 
         WinGameMenuUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
-/*        Object.Destroy(gameObject, 1.0f);*/
-
         Debug.Log("win game");
     }
 
-    public void setClear(bool status)
+    public void completedTask2()
     {
-        clear = status;
+        task2 = true;
+        Destroy(lineRenderer);
     }
 
-    public void updateAmountCoins()
+    public void completedAllTasks()
     {
-        amountCurrent++;
-        Debug.Log("selected coins: " + amountCurrent);
+        spawnBoss();
+    }
+
+    private void spawnBoss()
+    {
+        bossAppear = true;
+        StartCoroutine(displayAlert("boss has appeared"));
+
+        float randomAngle = Random.Range(0f, 360f);
+        float angleInRadians = Mathf.Deg2Rad * randomAngle;
+        float x = player.transform.position.x + radius * Mathf.Cos(angleInRadians);
+        float z = player.transform.position.z + radius * Mathf.Sin(angleInRadians);
+
+        boss.transform.position = new Vector3(x, player.transform.position.y, z);
+        boss.SetActive(true);
+    }
+
+    public void spawnZombies()
+    {
+        StartCoroutine(displayAlert("zombies has appeared"));
+        AudioController.occurrence.playSpawnZombie();
+    }
+
+    public void defeatedBoss()
+    {
+        ObjectivesComplete.occurrence.GetObjectivesDone("defeated boss");
+        winGame();
+    }
+
+    public void loseGame()
+    {
+        lose = true;
+        GetComponent<AudioSource>().Stop();
+        AudioController.occurrence.playLoseGame();
+        LoseGameMenuUI.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Destroy(lineRenderer);
     }
 
     public void LoadingBullets_()
     {
-        AmmoText.text = "loading...";
-        LoadingBullets.SetActive(true);
+        StartCoroutine(displayLoadingBulletsAlert());
     }
 
-    public void LoadedBullets_()
+    IEnumerator displayLoadingBulletsAlert()
     {
+        AmmoText.text = "loading...";
+        MessageAlert.SetActive(true);
+        MessageText.color = Color.yellow;
+        MessageText.text = "loading bullets...";
+        yield return new WaitForSeconds(3.633f);
         AmmoText.text = "Ammo: " + Rifle.occurrence.maximumAmmunition;
-        LoadingBullets.SetActive(false);
+        MessageAlert.SetActive(false);
+    }
+
+    IEnumerator displayAlert(string message)
+    {
+        MessageAlert.SetActive(true);
+        MessageText.color = Color.red;
+        MessageText.text = message;
+        yield return new WaitForSeconds(2.0f);
+        MessageAlert.SetActive(false);
     }
 
     public void updateVolumeCurrent(float volume)
@@ -112,17 +157,12 @@ public class GameController : MonoBehaviour
 
     private void closestZombie()
     {
-        if(clear)
-        {
-            Destroy(lineRenderer);
-            return;
-        }
+        if(task2 == true || bossAppear == true || lose == true) { return; }
 
         listZombies = GameObject.FindGameObjectsWithTag("zombie");
 
         if (listZombies == null || listZombies.Length <= 0)
         {
-            Debug.Log("not found");
             return;
         }
 

@@ -17,11 +17,11 @@ public class ZombieSpawn : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            AudioController.occurrence.playSpawnZombie();
             InvokeRepeating("EnemySpawner", 1f, repeatCycle);
             Destroy(gameObject, amountZombies);
             gameObject.GetComponent<BoxCollider>().enabled = false;
             ObjectivesComplete.occurrence.GetObjectivesDone("task1");
+            GameController.occurrence.spawnZombies();
         }
     }
 

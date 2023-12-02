@@ -5,11 +5,10 @@ using UnityEngine.AI;
 
 public class Zombie2 : MonoBehaviour
 {
-    private bool findZombie = false;
     private bool died = false;
 
     [Header("Zombie Health and Damage")]
-    private float zombieHealth = 150f;
+    private float zombieHealth = 300f;
     private float presentHealth;
     public float giveDamage = 10f;
     public HealthBar healthBar;
@@ -31,6 +30,8 @@ public class Zombie2 : MonoBehaviour
 
     [Header("Zombie Animation")]
     public Animator anim;
+    public float timeAttack = 1.75f;
+    public float timeReAttack = 1.25f;
 
     [Header("Zombie mood/states")]
     public float visionRadius;
@@ -66,12 +67,6 @@ public class Zombie2 : MonoBehaviour
     }
     private void Pursueplayer()
     {
-        if (findZombie == false)
-        {
-            findZombie = true;
-            ObjectivesComplete.occurrence.GetObjectivesDone("obj1");
-        }
-
         if (zombieAgent.SetDestination(playerBody.position))
         {
             anim.SetBool("Idle", false);
@@ -92,13 +87,14 @@ public class Zombie2 : MonoBehaviour
             {
                 Debug.Log("Attacking" + hitInfo.transform.name);
 
+                anim.SetBool("Running", false);
+                anim.SetBool("Attacking", true);
+
                 PlayerScript playerBody = hitInfo.transform.GetComponent<PlayerScript>();
                 if (playerBody != null)
                 {
-                    playerBody.playerHitDamage(giveDamage);
+                    StartCoroutine(hitDamePlayer(playerBody));
                 }
-                anim.SetBool("Running", false);
-                anim.SetBool("Attacking", true);
             }
 
             previouslyAttack = true;
@@ -109,6 +105,15 @@ public class Zombie2 : MonoBehaviour
     private void ActiveAttacking()
     {
         previouslyAttack = false;
+    }
+
+    IEnumerator hitDamePlayer(PlayerScript playerBody)
+    {
+        yield return new WaitForSeconds(timeAttack);
+        playerBody.playerHitDamage(giveDamage);
+        AudioController.occurrence.playZombieAttack();
+        yield return new WaitForSeconds(timeReAttack);
+
     }
 
     public void zombieHitDamage(float takeDamage)
@@ -134,12 +139,8 @@ public class Zombie2 : MonoBehaviour
 
         if (died == false)
         {
-            Vector3 position = transform.position;
-            position.y = position.y + 1f;
-            Quaternion rotation = Quaternion.Euler(90f, 0f, 0f);
-            Instantiate(coinPrefab, position, rotation);
-            ObjectivesComplete.occurrence.GetObjectivesDone("task2");
             died = true;
+            GameController.occurrence.defeatedBoss();
         }
 
         Object.Destroy(gameObject, 5.0f);

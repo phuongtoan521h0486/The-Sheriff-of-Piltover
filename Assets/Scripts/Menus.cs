@@ -34,12 +34,10 @@ public class Menus: MonoBehaviour
             if(GameIsStopped)
             {
                 Resume();
-                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
                 Pause();
-                Cursor.lockState = CursorLockMode.None;
             }
         }
         else if(Input.GetKeyDown("m")) 
@@ -47,12 +45,10 @@ public class Menus: MonoBehaviour
             if(GameIsStopped)
             {
                 removeObjectives();
-                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
                 showObjectives();
-                Cursor.lockState = CursorLockMode.None;
             }
         }
         else if (Input.GetKeyDown("p"))
@@ -60,12 +56,10 @@ public class Menus: MonoBehaviour
             if (openShop)
             {
                 removeShop();
-                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
                 showShop();
-                Cursor.lockState = CursorLockMode.None;
             }
         }
     }
@@ -77,18 +71,12 @@ public class Menus: MonoBehaviour
         removeObjectives();
     }
 
-    public void showObjectives()
-    {
-        ObjectiveMenuUI.SetActive(true);
-        /*        Time.timeScale = 0f;*/
-        GameIsStopped = true;
-    }
-
     public void showShop()
     {
 
         shopUI.SetActive(true);
         openShop = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void removeShop()
@@ -97,15 +85,20 @@ public class Menus: MonoBehaviour
         alertBuyText.SetActive(false);
         shopUI.SetActive(false);
         Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
         openShop = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void showObjectives()
+    {
+        ObjectiveMenuUI.SetActive(true);
+        GameIsStopped = true;
     }
 
     public void removeObjectives()
     {
         ObjectiveMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
         GameIsStopped = false;
     }
 
@@ -115,6 +108,13 @@ public class Menus: MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         GameIsStopped = false;
+    }
+
+    public void Pause()
+    {
+        pauseMenuUI.SetActive(true);
+        GameIsStopped = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void Restart()
@@ -136,10 +136,4 @@ public class Menus: MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
     }
 
-    void Pause()
-    {
-        pauseMenuUI.SetActive(true);
-        /*        Time.timeScale = 0f;*/
-        GameIsStopped = true;
-    }
 }

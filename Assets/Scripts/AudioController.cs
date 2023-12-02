@@ -12,10 +12,12 @@ public class AudioController : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip collectCoin;
     public AudioClip fire;
+    public AudioClip zombieAttack;
     public AudioClip spawnZombie;
     public AudioClip buyItem;
     public AudioClip useItem;
     public AudioClip winGame;
+    public AudioClip loseGame;
 
     [Header("Slider")]
     public Slider sliderVolume;
@@ -55,7 +57,12 @@ public class AudioController : MonoBehaviour
     {
         audioSource.clip = fire;
         audioSource.Play();
+    }
 
+    public void playZombieAttack()
+    {
+        audioSource.clip = zombieAttack;
+        audioSource.Play();
     }
 
     public void playSpawnZombie()
@@ -79,6 +86,12 @@ public class AudioController : MonoBehaviour
     public void playWinGame()
     {
         audioSource.clip = winGame;
+        audioSource.Play();
+    }
+
+    public void playLoseGame()
+    {
+        audioSource.clip = loseGame;
         audioSource.Play();
     }
 }

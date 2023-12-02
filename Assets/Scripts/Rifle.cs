@@ -161,7 +161,6 @@ public class Rifle : MonoBehaviour
         player.playerSprint = 5f;
         setReloading = false;
         Debug.Log("Reloaded");
-        GameController.occurrence.LoadedBullets_();
     }
 
     public void addMag()
