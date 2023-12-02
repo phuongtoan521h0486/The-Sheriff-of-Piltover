@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     public static bool lose = false;
     private bool task2 = false;
     private bool bossAppear = false;
-    private float radius = 10f;
+    private float radius = 20f;
 
     public static GameController occurrence;
 
@@ -36,6 +36,11 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        won = false;
+        lose = false;
+        task2 = false;
+        bossAppear = false;
+
         AmmoText.text = "Ammo: " + Rifle.occurrence.maximumAmmunition;
 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
