@@ -14,6 +14,7 @@ public class AudioController : MonoBehaviour
     public AudioClip fire;
     public AudioClip zombieAttack;
     public AudioClip spawnZombie;
+    public AudioClip spawnBoss;
     public AudioClip buyItem;
     public AudioClip useItem;
     public AudioClip winGame;
@@ -68,6 +69,12 @@ public class AudioController : MonoBehaviour
     public void playSpawnZombie()
     {
         audioSource.clip = spawnZombie;
+        audioSource.Play();
+    }
+
+    public void playSpawnBoss()
+    {
+        audioSource.clip = spawnBoss;
         audioSource.Play();
     }
 

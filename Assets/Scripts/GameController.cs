@@ -93,6 +93,7 @@ public class GameController : MonoBehaviour
     {
         bossAppear = true;
         StartCoroutine(displayAlert("boss has appeared"));
+        AudioController.occurrence.playSpawnBoss();
 
         float randomAngle = Random.Range(0f, 360f);
         float angleInRadians = Mathf.Deg2Rad * randomAngle;
