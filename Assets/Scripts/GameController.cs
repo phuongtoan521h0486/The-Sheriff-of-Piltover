@@ -13,7 +13,6 @@ public class GameController : MonoBehaviour
     public static bool lose = false;
     private bool task2 = false;
     private bool bossAppear = false;
-    private float radius = 20f;
 
     public static GameController occurrence;
 
@@ -100,12 +99,6 @@ public class GameController : MonoBehaviour
         StartCoroutine(displayAlert("boss has appeared"));
         AudioController.occurrence.playSpawnBoss();
 
-        float randomAngle = Random.Range(0f, 360f);
-        float angleInRadians = Mathf.Deg2Rad * randomAngle;
-        float x = player.transform.position.x + radius * Mathf.Cos(angleInRadians);
-        float z = player.transform.position.z + radius * Mathf.Sin(angleInRadians);
-
-        boss.transform.position = new Vector3(x, player.transform.position.y, z);
         boss.SetActive(true);
     }
 
