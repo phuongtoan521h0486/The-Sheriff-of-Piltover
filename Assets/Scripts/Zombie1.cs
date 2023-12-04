@@ -7,6 +7,11 @@ public class Zombie1 : MonoBehaviour
 {
     private bool died = false;
 
+    [Header("State0")]
+    private int RUNNING = 1;
+    private int ATTACKING = 2;
+    private int DIE = 3;
+
     [Header("Zombie Health and Damage")]
     private float zombieHealth = 100f;
     private float presentHealth;
@@ -60,6 +65,31 @@ public class Zombie1 : MonoBehaviour
         if (playerInvisionRadius && playerInattackingRadius) AttackPlayer();
     }
 
+    private void changeState(int state)
+    {
+        if(state == RUNNING)
+        {
+            anim.SetBool("Walking", false);
+            anim.SetBool("Running", true);
+            anim.SetBool("Attacking", false);
+            anim.SetBool("Died", false);
+        }
+        else if(state == ATTACKING)
+        {
+            anim.SetBool("Walking", false);
+            anim.SetBool("Running", false);
+            anim.SetBool("Attacking", true);
+            anim.SetBool("Died", false);
+        }
+        else if(state == DIE)
+        {
+            anim.SetBool("Walking", false);
+            anim.SetBool("Running", false);
+            anim.SetBool("Attacking", false);
+            anim.SetBool("Died", true);
+        }
+    }
+
     private void Guard()
     {
         if (Vector3.Distance(walkPoints[currentZombiePosition].transform.position, transform.position)  < walkingpointRadius)
@@ -77,17 +107,11 @@ public class Zombie1 : MonoBehaviour
     {
         if(zombieAgent.SetDestination(playerBody.position))
         {
-            anim.SetBool("Walking", false);
-            anim.SetBool("Running", true);
-            anim.SetBool("Attacking", false);
-            anim.SetBool("Died", false);
+            changeState(RUNNING);
         }
         else
         {
-            anim.SetBool("Walking", false);
-            anim.SetBool("Running", false);
-            anim.SetBool("Attacking", false);
-            anim.SetBool("Died", true);
+            changeState(DIE);
         }
     }
 
@@ -102,10 +126,7 @@ public class Zombie1 : MonoBehaviour
             {
                 Debug.Log("Attacking" +  hitInfo.transform.name);
 
-                anim.SetBool("Walking", false);
-                anim.SetBool("Running", false);
-                anim.SetBool("Attacking", true);
-                anim.SetBool("Died", false);
+                changeState(ATTACKING);
 
                 PlayerScript playerBody = hitInfo.transform.GetComponent<PlayerScript>();
                 if (playerBody != null)
@@ -138,10 +159,7 @@ public class Zombie1 : MonoBehaviour
         healthBar.SetHealth(presentHealth);
         if (presentHealth <= 0)
         {
-            anim.SetBool("Walking", false);
-            anim.SetBool("Running", false);
-            anim.SetBool("Attacking", false);
-            anim.SetBool("Died", true);
+            changeState(DIE);
 
             ZombieDie();
         }
