@@ -9,7 +9,7 @@ public class ZombieSpawn : MonoBehaviour
     public Transform[] zombieSpawnPosition;
     private int spawnPointCurrent = 0;
 
-    public static float amountZombies = 6f;
+    public static float amountZombies = 20f;
 
     private float repeatCycle = 1f;
 

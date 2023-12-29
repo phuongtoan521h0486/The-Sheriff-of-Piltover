@@ -40,7 +40,7 @@ public class Zombie1 : MonoBehaviour
     public float timeAttack = 1.75f;
 
     [Header("Zombie mood/states")]
-    public float visionRadius;
+    public float visionRadius = 30.0f;
     public float attackingRadius;
     public bool playerInvisionRadius;
     public bool playerInattackingRadius;
@@ -57,6 +57,7 @@ public class Zombie1 : MonoBehaviour
 
     private void Update()
     {
+
         playerInvisionRadius = Physics.CheckSphere(transform.position, visionRadius, PlayerLayer);
         playerInattackingRadius = Physics.CheckSphere(transform.position, attackingRadius, PlayerLayer);
 

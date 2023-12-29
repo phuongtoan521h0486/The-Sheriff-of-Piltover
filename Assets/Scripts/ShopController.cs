@@ -20,7 +20,7 @@ public class ShopController : MonoBehaviour
     public GameObject magItem;
 
     [Header("Amount")]
-    public int currentCoins = 2;
+    public int currentCoins = 5;
     private int amountBlood;
     private int amountMag;
 

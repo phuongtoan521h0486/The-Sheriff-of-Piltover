@@ -47,6 +47,16 @@ public class Rifle : MonoBehaviour
         {
             return;
         }
+        if (Input.GetKeyDown("r"))
+        {
+            if (mag > 1)
+            {
+                presentAmmunition = 0;
+                mag--;
+                AmmoCount.occurrence.UpdateMagText(mag);
+                return;
+            }
+        }
         if (presentAmmunition <= 0 && mag > 0)
         {
             StartCoroutine(Reload());

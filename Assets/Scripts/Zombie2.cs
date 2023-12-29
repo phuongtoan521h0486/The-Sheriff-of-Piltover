@@ -8,7 +8,7 @@ public class Zombie2 : MonoBehaviour
     private bool died = false;
 
     [Header("Zombie Health and Damage")]
-    private float zombieHealth = 300f;
+    private float zombieHealth =600f;
     private float presentHealth;
     public float giveDamage = 10f;
     public HealthBar healthBar;

@@ -613,23 +613,24 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '''w,s,a,d'': move
-
-    ''arrow keys'': move
+  m_text: '''w,s,a,d'' or ''arrow'': move
 
     ''shift'':  accelerate
 
     ''left
     mouse'': fire
 
+    ''r'': loading bullets
+
     ''m'': open list tasks
 
-    ''p'': open shop and warehouse
+    ''p'':
+    open shop and warehouse
 
-    ''c'':
-    switch camera
+    ''c'': switch camera
 
-    ''esc'': open menu in game'
+    ''esc'': open menu in
+    game'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
